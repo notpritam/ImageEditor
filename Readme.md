@@ -1,6 +1,6 @@
  # Image Filter Application
 
- ![GUI Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759565/Original_fnqa9u.jpg)
+ ![GUI Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759570/flipHorizontally_xk1cf2.png)
 
 The Image Filter Application is a Java-based desktop program that allows users to open, edit, and save images using a variety of filters and image processing operations. This README provides an overview of the application's functionality, key features, and usage instructions.
 
