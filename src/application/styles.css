@@ -1,0 +1,51 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.tool-vbox {
+    -fx-padding: 10px;
+    -fx-spacing: 5px;
+    -fx-display-caret: "flex";
+    -fx-gap-start-and-end: "30px";
+    -fx-background-color: #393E46;
+    -fx-text-fill: #EEEEEE;
+}
+
+.tool-vbox > .button{
+	-fx-background-color: #222831;
+	-fx-text-fill: #EEEEEE;
+}
+
+.open-button{
+	-fx-background-color: #222831;
+	-fx-text-fill: #EEEEEE;
+}
+
+.my-slider{
+	-fx-control-inner-background: #f0f0f0;
+	
+	
+}
+
+.tool-vbox .label{
+	-fx-text-fill: #EEEEEE;
+}
+
+
+
+.my-slider .thumb{
+	-fx-background-color: #00ADB5;
+}
+
+
+.button:hover{
+	-fx-background-color: "red";
+}
+
+.add-image-button {
+    -fx-font-size: 18px;
+}
+
+.root{
+	-fx-background-color: #222831;
+}
+
+

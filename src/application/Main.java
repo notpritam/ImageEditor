@@ -1,7 +1,6 @@
 package application;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,7 +19,7 @@ import java.util.Stack;
 
 public class Main extends Application {
 
-	private Image originalImage;
+	public Image originalImage;
     private ImageView imageView;
     private Image editedImage;
     private Stack<ImageFilter> filterStack = new Stack<>();
@@ -32,64 +31,120 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Image Editor");
 
-        // UI components
+      
         BorderPane root = new BorderPane();
-        imageView = new ImageView();
+        
+        
+        
         VBox filterOptions = createFilterOptions();
+        
 
         root.setTop(createMenuBar(primaryStage));
         root.setLeft(filterOptions);
-        root.setCenter(imageView);
+        root.setCenter(imageView); 
 
-        primaryStage.setScene(new Scene(root, 800, 600));
+        
+        Scene scene = new Scene(root, 800, 800);
+        
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        
+        Image icon = new Image("application/picture.png");
+
+        primaryStage.setScene(scene);
+        primaryStage.getIcons().add(icon);
         primaryStage.show();
     }
 
     private VBox createFilterOptions() {
         VBox vbox = new VBox();
+        vbox.getStyleClass().add("tool-vbox");
         vbox.setPadding(new Insets(10));
-        vbox.setSpacing(10);
+        vbox.setFillWidth(true);
+        vbox.setSpacing(30);
+        imageView = new ImageView();
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(800); 
 
         Button undoButton = new Button("Undo");
+        undoButton.setMaxWidth(Double.MAX_VALUE);
         undoButton.setOnAction(event -> undoFilter());
 
         Button grayscaleButton = new Button("Grayscale");
+        grayscaleButton.setMaxWidth(Double.MAX_VALUE);
         grayscaleButton.setOnAction(event -> applyFilter(new GrayscaleFilter()));
 
         Button blueButton = new Button("Blue Filter");
+        blueButton.setMaxWidth(Double.MAX_VALUE);
         blueButton.setOnAction(event -> applyFilter(new BlueFilter()));
+        
+        Button flipHorizontally = new Button("Flip Horizontally");
+        flipHorizontally.setMaxWidth(Double.MAX_VALUE);
+        flipHorizontally.setOnAction(event -> applyFilter(new InvertImage("horizontally")));
+
+        Button flipVertically = new Button("Flip Vertically");
+        flipVertically.setMaxWidth(Double.MAX_VALUE);
+        flipVertically.setOnAction(event -> applyFilter(new InvertImage("vertically")));
 
         Button invertButton = new Button("Inversion");
+        invertButton.setMaxWidth(Double.MAX_VALUE);
         invertButton.setOnAction(event -> applyFilter(new InversionFilter()));
 
         Button rotateButton = new Button("Rotate");
+        rotateButton.setMaxWidth(Double.MAX_VALUE);
         rotateButton.setOnAction(event -> applyFilter(new RotationFilter()));
+        
+        Button rotateButtonAnti = new Button("Rotate Anti-Clockwise");
+        rotateButtonAnti.setMaxWidth(Double.MAX_VALUE);
+        rotateButtonAnti.setOnAction(event -> applyFilter(new RotationFilterAnti()));
+        
+        
 
         Slider brightnessSlider = new Slider(-100, 100, 0);
+        
         Button applyBrightnessButton = new Button("Apply Brightness");
+        applyBrightnessButton.setMaxWidth(Double.MAX_VALUE);
         applyBrightnessButton.setOnAction(event -> applyFilter(new BrightnessFilter(brightnessSlider.getValue())));
 
         Slider contrastSlider = new Slider(-100, 100, 0);
+        contrastSlider.getStyleClass().add("my-slider");
+        brightnessSlider.getStyleClass().add("my-slider");
+        
+        
         Button applyContrastButton = new Button("Apply Contrast");
+        applyContrastButton.setMaxWidth(Double.MAX_VALUE);
         applyContrastButton.setOnAction(event -> applyFilter(new ContrastFilter(contrastSlider.getValue())));
 
+        Slider blurSlider = new Slider(5, 20, 5);
+        blurSlider.getStyleClass().add("my-slider");
+        blurSlider.getStyleClass().add("my-slider");
+        
+        Button blurButton = new Button("Apply Blur");
+        blurButton.setMaxWidth(Double.MAX_VALUE);
+        blurButton.setOnAction(event -> applyFilter(new BlurFilter(blurSlider.getValue())));
+        
         vbox.getChildren().addAll(
-            grayscaleButton, blueButton, invertButton, rotateButton,
+            grayscaleButton, blueButton, invertButton, rotateButton, rotateButtonAnti, flipHorizontally, flipVertically,
             new Label("Brightness:"),
             brightnessSlider,
             applyBrightnessButton,
             new Label("Contrast:"),
             contrastSlider,
             applyContrastButton,
+            new Label("Blur:"),
+            blurSlider,
+            blurButton,
             undoButton
         );
 
 
         return vbox;
     }
+    
+    
 
     private MenuBar createMenuBar(Stage primaryStage) {
         MenuBar menuBar = new MenuBar();
+        menuBar.getStyleClass().add("menu-bar");
         Menu fileMenu = new Menu("File");
         MenuItem openItem = new MenuItem("Open Image");
         MenuItem saveItem = new MenuItem("Save Image");
@@ -126,6 +181,21 @@ public class Main extends Application {
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         if (selectedFile != null) {
             originalImage = new Image(selectedFile.toURI().toString());
+            
+            int height = (int) originalImage.getHeight();
+            int width = (int) originalImage.getWidth();
+            
+            if(width < 1600) {
+            	imageView.setFitWidth(width);
+            	if(height < 1000) {
+                	imageView.setFitHeight(height);
+                } else  {
+                	imageView.setFitHeight(1000);
+                }
+            	
+            } else  {
+            	imageView.setFitWidth(1600);
+            }
             imageView.setImage(originalImage);
         }
     }
@@ -152,6 +222,51 @@ public class Main extends Application {
         Image apply(Image image);
     }
 
+    public class InvertImage implements ImageFilter{
+    	
+    	private String inversion;
+    	
+    	public InvertImage(String inversion) {
+    		this.inversion = inversion;
+    		
+    	}
+    	@Override
+    	public Image apply(Image image) {
+    		  
+    		        int height=(int) image.getHeight();
+    		        int width= (int) image.getWidth();
+    		        BufferedImage outImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+    		        if(inversion.equals("horizontally"))
+    		        {
+    		            for(int i=0;i<height;i++)
+    		            {
+    		                for(int j=0;j<width/2;j++)
+    		                {
+    		                    Color pixel=new Color(image.getPixelReader().getArgb(width-j-1,i));
+    		                    outImg.setRGB(width-j-1,i,image.getPixelReader().getArgb(j,i));
+    		                    outImg.setRGB(j,i,pixel.getRGB());
+    		                }
+    		            }
+    		        }
+    		        else
+    		        {
+    		            for(int j=0;j<width;j++)
+    		            {
+    		                for(int i=0;i<height/2;i++)
+    		                {
+    		                    Color pixel=new Color(image.getPixelReader().getArgb(j,height-i-1));
+    		                    outImg.setRGB(j,height-i-1,image.getPixelReader().getArgb(j,i));
+    		                    outImg.setRGB(j,i,pixel.getRGB());
+    		                }
+    		            }
+    		        }
+    		        
+    		        return SwingFXUtils.toFXImage(outImg, null);
+    		        
+    		    
+    	}
+    }
     public class GrayscaleFilter implements ImageFilter {
         @Override
         public Image apply(Image image) {
@@ -176,15 +291,6 @@ public class Main extends Application {
         }
     }
 
-    public class BlueFilter implements ImageFilter {
-        @Override
-        public Image apply(Image image) {
-            // Apply blue filter to the image
-            // Implement your blue filter logic here
-            return image; // Return the processed image
-        }
-    }
-
     public class InversionFilter implements ImageFilter {
         @Override
         public Image apply(Image image) {
@@ -206,13 +312,95 @@ public class Main extends Application {
              return editedImage;
         }
     }
+    
+public class BlurFilter implements ImageFilter {
+    private double blurRadiusSlider;
 
+    public BlurFilter(double blurRadiusSlider) {
+        this.blurRadiusSlider = blurRadiusSlider;
+    }
+
+    @Override
+    public Image apply(Image image) {
+    	
+    	 
+    	            int n = (int) blurRadiusSlider;
+    	            if (n % 2 == 0) {
+    	                n++;
+    	            }
+
+    	            int m = n / 2;
+    	            int width = (int) image.getWidth();
+    	            int height = (int) image.getHeight();
+    	            BufferedImage blurredImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+    	            for (int x = 0; x < width; x++) 
+    	            {
+    	                for (int y = 0; y < height; y++) 
+    	                {
+    	                    int newRed = 0;
+    	                    int newGreen = 0;
+    	                    int newBlue = 0;
+
+    	                   
+    	                    for (int i = -m; i <= m; i++) 
+    	                    {
+    	                        for (int j = -m; j <= m; j++) 
+    	                        {
+    	                            if(i+x<0 || i+x>=width || j+y<0 || j+y>=height)
+    	                                continue;
+    	                            Color pixel = new Color(image.getPixelReader().getArgb(x + i, y + j));
+    	                            newRed += pixel.getRed();
+    	                            newGreen += pixel.getGreen();
+    	                            newBlue += pixel.getBlue();
+    	                        }
+    	                    }
+
+    	                    newRed /= (n * n);
+    	                    newGreen /= (n * n);
+    	                    newBlue /= (n * n);
+
+    	                    blurredImage.setRGB(x, y, new Color(newRed, newGreen, newBlue).getRGB());
+    	                }
+    	            }
+        return SwingFXUtils.toFXImage(blurredImage, null);
+    }
+}
+    public class  RotationFilterAnti implements ImageFilter {
+        @Override
+        public Image apply(Image image) {
+            int width = (int) image.getWidth();
+            int height = (int) image.getHeight();
+
+            BufferedImage outImg = new BufferedImage(height, width, BufferedImage.TYPE_INT_ARGB);
+
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    Color originalColor = new Color(image.getPixelReader().getArgb(j, i));
+                    outImg.setRGB(i, width - 1 - j, originalColor.getRGB());
+                }
+            }
+
+            return SwingFXUtils.toFXImage(outImg, null);
+        }
+    }
+    
     public class RotationFilter implements ImageFilter {
         @Override
         public Image apply(Image image) {
-            // Apply rotation filter to the image
-            // Implement your rotation logic here
-            return image; // Return the processed image
+            int width = (int) image.getWidth();
+            int height = (int) image.getHeight();
+
+            BufferedImage outImg = new BufferedImage(height, width, BufferedImage.TYPE_INT_ARGB);
+
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    Color originalColor = new Color(image.getPixelReader().getArgb(j, i));
+                    outImg.setRGB( height - 1 - i, j, originalColor.getRGB());
+                }
+            }
+
+            return SwingFXUtils.toFXImage(outImg, null);
         }
     }
 
@@ -259,6 +447,34 @@ public class Main extends Application {
             return Math.min(255, Math.max(0, value));
         }
     }
+
+    public class BlueFilter implements ImageFilter {
+        @Override
+        public Image apply(Image image) {
+            int width = (int) image.getWidth();
+            int height = (int) image.getHeight();
+
+            BufferedImage outImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    Color color = new Color(image.getPixelReader().getArgb(x, y));
+                    int red = color.getRed();
+                    int green = color.getGreen();
+                    int blue = (int) (color.getBlue() * 1.5); // Increase blue channel intensity
+
+                    // Ensure that blue is clamped to the [0, 255] range
+                    blue = Math.min(255, blue);
+
+                    Color filteredColor = new Color(red, green, blue);
+                    outImg.setRGB(x, y, filteredColor.getRGB());
+                }
+            }
+
+            return SwingFXUtils.toFXImage(outImg, null);
+        }
+    }
+
 
   public class ContrastFilter implements ImageFilter {
     private double contrastLevel;
