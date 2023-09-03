@@ -1,5 +1,7 @@
  # Image Filter Application
 
+ ![Flip Example](images/flipHorizontally.png)
+
 The Image Filter Application is a Java-based desktop program that allows users to open, edit, and save images using a variety of filters and image processing operations. This README provides an overview of the application's functionality, key features, and usage instructions.
 
 ## Features
@@ -19,6 +21,8 @@ The Image Filter Application is a Java-based desktop program that allows users t
 - **Undo Functionality**: Easily revert the last applied filter using the "Undo" feature.
 
 - **User-Friendly Interface**: The application offers an intuitive graphical user interface (GUI) designed with JavaFX components.
+
+
 
 ## Getting Started
 
@@ -46,29 +50,49 @@ java Main
 4. Undo filter operations with the "Undo" button.
 5. Save edited images to your preferred location.
 
+
+## GUI
+
+*Full Interface*
+![User InterFace](images/gui.png)
+![Toolbar](images/toolbar.png)
+
+
 ## Examples
-
-![Grayscale Example](grayscale-example.png)
-
 *Original Image*
+![Original Image](images/Original.jpg)
 
-![Inversion Example](inversion-example.png)
+*GrayScale Filter*
+![Grayscale Example](images/Grayscale.png)
 
-*Inversion Filter Applied*
+*Blue Filter*
+![Blue Example](images/Blue.png)
+
+*Blur Filter*
+![Blur Example](images/blur.png)
+
+*Flip Filter*
+![Flip Example](images/flipHorizontally.png)
+
+*Rotate Filter*
+![Rotate Example](images/rotaate.png)
+
+*Contrast Filter*
+![Contrast Example](images/Contrast.png)
+
+*Brightness Filter*
+![Brightness Example](images/brightness.png)
+
+*Inversion Filter*
+![Inversion Example](images/inversion.png)
+
 
 ## Contributing
 
-If you'd like to contribute to this project, please feel free to submit pull requests or report issues on the [GitHub repository](https://github.com/yourusername/your-repository).
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+If you'd like to contribute to this project, please feel free to submit pull requests or report issues on the [GitHub repository](https://github.com/notpritam/ImageEditor).
 
 ## Acknowledgments
 
 - The application is built using Java and JavaFX.
-- Inspiration for this project came from the need for a simple yet powerful image editing tool.
 
 ---
-
-Feel free to modify and expand this README according to your project's specific details and requirements.
