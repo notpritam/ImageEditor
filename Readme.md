@@ -1,6 +1,6 @@
  # Image Filter Application
 
- ![Flip Example](images/flipHorizontally.png)
+ ![GUI Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759565/Original_fnqa9u.jpg)
 
 The Image Filter Application is a Java-based desktop program that allows users to open, edit, and save images using a variety of filters and image processing operations. This README provides an overview of the application's functionality, key features, and usage instructions.
 
@@ -54,37 +54,37 @@ java Main
 ## GUI
 
 *Full Interface*
-![User InterFace](images/gui.png)
-![Toolbar](images/toolbar.png)
+![User InterFace](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759560/gui_o2btjm.png)
+![Toolbar](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759560/toolbar_wdq89n.png)
 
 
 ## Examples
 *Original Image*
-![Original Image](images/Original.jpg)
+![Original Image](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759565/Original_fnqa9u.jpg)
 
 *GrayScale Filter*
-![Grayscale Example](images/Grayscale.png)
+![Grayscale Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759567/Grayscale_jpszwb.png)
 
 *Blue Filter*
-![Blue Example](images/Blue.png)
+![Blue Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759573/Blue_bnczqm.png)
 
 *Blur Filter*
-![Blur Example](images/blur.png)
+![Blur Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759563/blur_gamtf6.png)
 
 *Flip Filter*
-![Flip Example](images/flipHorizontally.png)
+![Flip Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759570/flipHorizontally_xk1cf2.png)
 
 *Rotate Filter*
-![Rotate Example](images/rotaate.png)
+![Rotate Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759564/rotaate_je6zyv.png)
 
 *Contrast Filter*
-![Contrast Example](images/Contrast.png)
+![Contrast Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759565/Contrast_nrxgo5.png)
 
 *Brightness Filter*
-![Brightness Example](images/brightness.png)
+![Brightness Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759564/brightness_cdqute.png)
 
 *Inversion Filter*
-![Inversion Example](images/inversion.png)
+![Inversion Example](https://res.cloudinary.com/dkzr9ykoz/image/upload/v1693759565/inversion_hydgys.png)
 
 
 ## Contributing
